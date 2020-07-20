@@ -1,4 +1,0 @@
-flask
-flask_slqalchemy
-flask_login
-flask_bcrypt
