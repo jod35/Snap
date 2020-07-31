@@ -1,8 +1,8 @@
 from flask import Blueprint,render_template,request
 from flask_login import current_user,login_user,logout_user
 from .forms import LoginForm,RegistrationForm
-from .models import User
-from snap import db
+from snap.models.users import User
+from snap.utils.database import db
 
 
 user_bp=Blueprint('users',__name__,template_folder='templates',static_folder='static')
