@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template,request
+from flask import Blueprint,render_template,request,flash,redirect,url_for
 from flask_login import current_user,login_user,logout_user
 from .forms import LoginForm,RegistrationForm
 from snap.models.users import User
@@ -6,6 +6,8 @@ from snap.utils.database import db
 
 
 user_bp=Blueprint('users',__name__,template_folder='templates',static_folder='static')
+
+
 
 @user_bp.route('/signup',methods=['GET','POST'])
 def register():
@@ -19,10 +21,14 @@ def register():
 
             new_user=User(username=username,email=email,password=password)
 
-            db.session.add(new_user)
-            db.session.commit()
+            new_user.create()
 
-            print("Added Success")
+            flash("User created Successfully")
+
+
+            return redirect(url_for('users.login'))
+
+            
 
 
 
@@ -34,6 +40,18 @@ def register():
 @user_bp.route('/login',methods=['GET','POST'])
 def login():
     form=LoginForm()
+
+
+    username=form.username.data
+    password=form.password.data
+
+
+    user=User.get_by_username(username)
+
+    if user and user.check_password(password):
+        login_user(user)
+        return redirect(url_for('users.home'))
+
 
     context={
         'form':form
