@@ -1,3 +1,11 @@
 *{
     font-family: sans-serif;
 }
+.form{
+    width: 80%;
+    margin: auto;
+}
+nav{
+    display: flex;
+    justify-content: space-between;
+}

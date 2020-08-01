@@ -7,7 +7,9 @@ from snap.utils.database import db
 
 user_bp=Blueprint('users',__name__,template_folder='templates',static_folder='static')
 
-
+@user_bp.route('/home')
+def home():
+    return render_template('users/home.html')
 
 @user_bp.route('/signup',methods=['GET','POST'])
 def register():
@@ -19,7 +21,9 @@ def register():
             email=form.email.data
             password=form.password.data
 
-            new_user=User(username=username,email=email,password=password)
+            new_user=User(username=username,email=email)
+
+            new_user.generate_password(password)
 
             new_user.create()
 
@@ -27,10 +31,6 @@ def register():
 
 
             return redirect(url_for('users.login'))
-
-            
-
-
 
     context={
         'form':form
@@ -46,14 +46,23 @@ def login():
     password=form.password.data
 
 
-    user=User.get_by_username(username)
+    user=User.query.filter_by(username=username).first()
+
+
+
 
     if user and user.check_password(password):
         login_user(user)
         return redirect(url_for('users.home'))
 
+    
 
     context={
         'form':form
     }
     return render_template('users/login.html',**context)
+
+@user_bp.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('users.login'))

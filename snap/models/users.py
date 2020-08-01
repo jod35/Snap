@@ -9,10 +9,10 @@ class User(db.Model,UserMixin):
     email=db.Column(db.String(80),nullable=False)
     password=db.Column(db.Text())
 
-    def __init__(self,username,email,password):
-        self.username=username
-        self.email=email
-        self.password=password
+    # def __init__(self,username,email,password):
+    #     self.username=username
+    #     self.email=email
+    #     self.password=password
 
     def __repr__(self):
         return f"{self.username}'s password"
@@ -31,7 +31,7 @@ class User(db.Model,UserMixin):
 
     @classmethod
     def get_by_username(cls,username):
-        return cls.query.filter_by(username).first()
+        return cls.query.filter_by(username=username).first()
 
 @login_manager.user_loader
 def load_user(user_id):

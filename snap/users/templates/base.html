@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static',filename='users/css/main.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('users.static',filename='users/css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('users.static',filename='bootstrap.min.css') }}">
     
     
     {% if title %}
@@ -21,8 +21,8 @@
         </div>
         {% if current_user.is_authenticated %}
             <div class="links">
-                <a href="">Home</a>
-                <a href="">Logout</a>
+                <a href="{{ url_for('users.home') }}">Home</a>
+                <a href="{{ url_for('users.logout') }}">Logout</a>
             </div>
         {% else %}
            <div class="links">
@@ -38,7 +38,7 @@
             {% if messages %}
                 
                 {% for message in messages %}
-                    
+                    <p>{{message}}</p>
                 {% endfor %}
                     
             {% endif %}
